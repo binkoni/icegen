@@ -1,0 +1,51 @@
+ignore = '^\..*'
+[[input]]
+name = 'calc'
+type = 'git-local'
+path = './git/calc' # git pull
+icon = './static/img/icons/icon-512x512.png' # relative to ./git/calc
+build = ['npm', 'run', 'build']
+[[input]]
+name = 'posts'
+type = 'markdown'
+path = './posts'
+
+[[input]]
+name = 'posts'
+type = 'markdown'
+path = './posts'
+
+'''
+/posts/blog/ -> /public/blog/index.html
+/posts/blog/01.md -> /public/blog/01/index.html
+/posts/blog/02.md -> /public/blog/02/index.html
+
+/posts/about.md -> /public/about/index.html
+
+/posts/projects/ -> /public/projects/index.html
+/posts/projects/jamo/index.html -> /public/projects/jamo/index.html
+/posts/apps/stellar-fighter/** -> /public/apps/stellar-fighter/**
+/data/projects/vinbero.toml -> /public/projects/vinbero/index.html
+
+type: MD | RST | TOML | JSON | YAML | DIRDATA | DIR
+
+like express
+app.use('/posts', posts)
+
+root:
+  '/posts' -> posts
+  '/data' -> data
+posts:
+  '/blog' -> blog
+  '/apps' -> apps
+  '/projs' -> projs
+blog:
+  '/' -> collect metadata from files -> index.html
+  '/:file' -> extract name part of file, file content -> name.html
+apps:
+  '/' -> collect metadata from each-dir/icegen.toml -> index.html
+  '/:app' -> npm run build and copy outdir recursively -> /:app/*
+projs:
+  '/' -> collect metadata from each dir/icegen.toml -> index.html
+  '/:proj' -> each-dir/readme.md -> /:proj/index.html
+'''
