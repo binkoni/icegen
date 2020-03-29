@@ -29,23 +29,42 @@ path = './posts'
 
 type: MD | RST | TOML | JSON | YAML | DIRDATA | DIR
 
-like express
-app.use('/posts', posts)
-
-root:
-  '/posts' -> posts
-  '/data' -> data
-posts:
-  '/blog' -> blog
-  '/apps' -> apps
-  '/projs' -> projs
-blog:
-  '/' -> collect metadata from files -> index.html
-  '/:file' -> extract name part of file, file content -> name.html
-apps:
-  '/' -> collect metadata from each-dir/icegen.toml -> index.html
-  '/:app' -> npm run build and copy outdir recursively -> /:app/*
-projs:
-  '/' -> collect metadata from each dir/icegen.toml -> index.html
-  '/:proj' -> each-dir/readme.md -> /:proj/index.html
-'''
+template_root: './tmpl'
+output_root: './public'
+routes:
+  '/posts':
+    '/blog':
+      '/':
+        type: dir
+        collect:
+	  type: file
+	  patterns:
+	    - *.md
+	generate: 'index.html'
+      '/{post}.md':
+        type: file
+	generate: '{post}.html'
+	template: postlist.tmpl
+    '/apps':
+      '/':
+        type: dir
+	collect:
+	  type: file
+	  patterns:
+	    - '*/README.md'
+	generate: index.html
+	template: iconlist.tmpl
+      '/{app}/dist'
+         type: dir
+	 gentype: 'copy'
+	 generate: '{app}
+    '/projs':
+      '/':
+        type: dir
+	collect:
+	  type: files
+	  patterns:
+	    - '*/README.md'
+      '/{proj}/README.md':
+        type: file
+        generate: '{proj}.html'
