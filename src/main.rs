@@ -3,12 +3,14 @@ use std::env;
 use std::path::PathBuf;
 use walkdir::WalkDir;
 use icegen::Generator;
+use icegen::cmark::md_to_html;
 struct Test;
 impl icegen::Generator for Test {
     fn generate(&self) {
         println!("generate");
     }
 }
+
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = env::args().collect();
@@ -22,5 +24,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     let t = Test{};
     t.generate();
+    println!("{}", md_to_html("**hello**"));
     Ok(())
 }

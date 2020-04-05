@@ -1,3 +1,5 @@
+pub mod cmark;
+
 pub trait Generator {
     fn generate(&self);
 }
