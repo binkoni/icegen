@@ -3,7 +3,7 @@ use std::env;
 use std::path::PathBuf;
 use walkdir::WalkDir;
 use icegen::Generator;
-use icegen::cmark::md_to_html;
+use icegen::cmark::md_to_html_file;
 struct Test;
 impl icegen::Generator for Test {
     fn generate(&self) {
@@ -15,7 +15,7 @@ impl icegen::Generator for Test {
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<_> = env::args().collect();
     let path = args.get(1).map_or(env::current_dir()?, |path| PathBuf::from(path));
-
+/*
     for entry in WalkDir::new(path)
                          .follow_links(true)
                          .into_iter()
@@ -24,6 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     let t = Test{};
     t.generate();
-    println!("{}", md_to_html("**hello**"));
+    */
+    md_to_html_file("README.md", "README.html")?;
     Ok(())
 }
